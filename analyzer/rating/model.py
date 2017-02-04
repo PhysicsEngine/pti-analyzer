@@ -13,6 +13,7 @@ class Article:
     '''
     Article represents a article by a author.
     '''
-    def __init__(self, author, rank_in_topic):
+    def __init__(self, author, published_time, rank_in_topic):
         self.author = author
+        self.published_time = published_time
         self.rank_in_topic = rank_in_topic
