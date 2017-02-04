@@ -61,7 +61,8 @@ class Rating(object):
                 ret[s.author.id] += gain
                 gain *= Rating.DISCOUNT
 
-        return ret
+        self.rating = ret
+        return self.rating
 
     def get_author_rate(self, author_id):
         return self.rating[author_id]

@@ -3,6 +3,7 @@
 import pymysql.cursors
 import pickle
 
+
 class Author(object):
     '''
     Author represents a author of article which keeps
@@ -23,6 +24,21 @@ class Author(object):
             conn.close()
 
         return ret
+
+    def save(self, user, password, host, database):
+        conn = pymysql.connect(user=user, password=password,
+                               host=host, database=database)
+
+        try:
+            with conn.cursor() as cur:
+                sql = "UPDATE articles_authors " \
+                      "SET rate=%s" \
+                      "WHERE id=%s;"
+                cur.execute(sql, (self.rate, self.id))
+        finally:
+            conn.close()
+
+        return
 
     def __init__(self, id, name, rate):
         self.id = id
