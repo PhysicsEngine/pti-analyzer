@@ -34,7 +34,7 @@ class Author(object):
                 sql = "UPDATE articles_authors " \
                       "  SET rate=%s " \
                       "  WHERE id=%s;"
-                cur.execute(sql, (self.rate, self.id))
+                cur.execute(sql, (str(self.rate), self.id))
         finally:
             conn.close()
 
@@ -85,9 +85,12 @@ class Article(object):
                 cur.execute(sql)
 
                 for r in cur.fetchall():
-                    topics = Article.load_from_pickel(pkl_base_dir, r[0])
-                    a = Article(r[0], Author(r[3], r[4], r[5]), r[1], r[2], topics)
-                    ret.append(a)
+                    try:
+                        topics = Article.load_from_pickel(pkl_base_dir, r[0])
+                        a = Article(r[0], Author(r[3], r[4], r[5]), r[1], r[2], topics)
+                        ret.append(a)
+                    except FileNotFoundError as e:
+                        print("File Not Found", e)
 
         finally:
             conn.close()
