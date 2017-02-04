@@ -4,6 +4,9 @@ from analyzer.model import Article
 
 
 class Rating(object):
+
+    MAX_GAIN = 10.0
+    DISCOUNT = 0.5
     '''
     Rating calculate rating of each authors given articles
     according topic model.
@@ -53,10 +56,10 @@ class Rating(object):
             sorted_by_time = list(sorted(sorted_by_topic[:max_num],
                                          key=lambda a: a.published_time))
 
-            gain = 10.0
+            gain = Rating.MAX_GAIN
             for s in sorted_by_time:
                 ret[s.author.id] += gain
-                gain *= 0.5
+                gain *= Rating.DISCOUNT
 
         return ret
 
