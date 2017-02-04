@@ -47,7 +47,7 @@ class Article(object):
     '''
 
     @classmethod
-    def load_from_mysql(cls, user, password, host, database):
+    def load_from_mysql(cls, user, password, host, database, pkl_base_dir):
         conn = pymysql.connect(user=user, password=password,
                                host=host, database=database)
 
@@ -69,7 +69,7 @@ class Article(object):
                 cur.execute(sql)
 
                 for r in cur.fetchall():
-                    topics = Article.load_from_pickel("/var/pti/topics", r[0])
+                    topics = Article.load_from_pickel(pkl_base_dir, r[0])
                     a = Article(r[0], Author(r[3], r[4], r[5]), r[1], r[2], topics)
                     ret.append(a)
 
