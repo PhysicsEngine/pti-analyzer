@@ -20,10 +20,19 @@ class TestModel:
         assert article.pub_time.year == 2017
         assert len(article.topics) == 3
 
-    def test_mysql(self):
+    def test_author_db(self):
         user = os.environ.get('PTI_USER')
         password = os.environ.get('PTI_PASSWORD')
         host = os.environ.get('PTI_HOST')
         db = os.environ.get('PTI_DB')
         authors = Author.load_from_mysql(user, password, host, db)
         assert len(authors) == 1
+
+    def test_article_db(self):
+        user = os.environ.get('PTI_USER')
+        password = os.environ.get('PTI_PASSWORD')
+        host = os.environ.get('PTI_HOST')
+        db = os.environ.get('PTI_DB')
+        articles = Article.load_from_mysql(user, password, host, db)
+        assert len(articles) == 2
+

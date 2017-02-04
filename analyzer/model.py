@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pymysql.cursors
-
+import pickle
 
 class Author(object):
     '''
@@ -46,7 +46,44 @@ class Article(object):
     Article represents a article by a author.
     '''
 
+    @classmethod
+    def load_from_mysql(cls, user, password, host, database):
+        conn = pymysql.connect(user=user, password=password,
+                               host=host, database=database)
+
+        ret = []
+        try:
+            with conn.cursor() as cur:
+                sql = "select " \
+                      "  art.id," \
+                      "  art.pub_date," \
+                      "  art.url," \
+                      "  auh.id," \
+                      "  auh.name," \
+                      "  auh.rate " \
+                      "from " \
+                      "  articles_articles art " \
+                      "JOIN " \
+                      "  articles_authors auh " \
+                      "on art.author_id = auh.id;"
+                cur.execute(sql)
+
+                for r in cur.fetchall():
+                    topics = Article.load_from_pickel("/var/pti/topics", r[0])
+                    a = Article(r[0], Author(r[3], r[4], r[5]), r[1], r[2], topics)
+                    ret.append(a)
+
+        finally:
+            conn.close()
+
+        return ret
+
+    @classmethod
+    def load_from_pickel(cls, base_dir, id):
+        return pickle.load(open("{}/{}.pkl".format(base_dir, id), "rb"))
+
     def __init__(self, id, author, pub_time, url, topics):
+
         self.id = id
         self.author = author
         self.pub_time = pub_time
@@ -56,6 +93,7 @@ class Article(object):
         self.topics = topics
 
     def get_topic_prob(self, t_id):
+
         '''
         Get probability of given topic id
         :param t_id:
