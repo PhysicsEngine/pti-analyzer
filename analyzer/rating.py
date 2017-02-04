@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from analyzer.model import Article
 
 
@@ -7,6 +8,9 @@ class Rating(object):
 
     MAX_GAIN = 10.0
     DISCOUNT = 0.5
+    RATING_BASE = 1.0
+    MAX_ARTICLES = 5
+    TOPIC_PROB_THRESHOLD = 0.5
     '''
     Rating calculate rating of each authors given articles
     according topic model.
@@ -48,18 +52,29 @@ class Rating(object):
         '''
         ret = {a.id: 0 for a in self.unique_authors()}
         unique_topics = self.unique_topics()
-        # Select above 50% articles sorted by topic probability
-        max_num = max(int(len(self.articles) * 0.5), 3)
-        for t in unique_topics:
-            sorted_by_topic = list(reversed(sorted([a for a in self.articles],
-                                                   key=lambda a: a.get_topic_prob(t))))
-            sorted_by_time = list(sorted(sorted_by_topic[:max_num],
-                                         key=lambda a: a.pub_time))
 
-            gain = Rating.MAX_GAIN
-            for s in sorted_by_time:
-                ret[s.author.id] += gain
-                gain *= Rating.DISCOUNT
+        for t in unique_topics:
+            # Filter topic related articles
+            related_articles = [art for art in self.articles
+                                 if art.get_topic_prob(t) >= Rating.TOPIC_PROB_THRESHOLD]
+
+            # Sorted by time in descending order
+            # First articles should get lower points because it's published late.
+            sorted_by_time = list(reversed(sorted(related_articles,
+                                                  key=lambda a: a.pub_time)))
+
+            # Select above 50% articles sorted by topic probability
+            num_articles = len(sorted_by_time)
+
+            # Search position of publisher's article
+            publisher_index = int(num_articles / 2)
+            for i, a in enumerate(sorted_by_time):
+                if a.author.id == 1:
+                    publisher_index = i
+                    break
+
+            for i, s in enumerate(sorted_by_time):
+                ret[s.author.id] += np.tanh((i - publisher_index) / num_articles)
 
         self.rating = ret
         return self.rating
