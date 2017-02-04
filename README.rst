@@ -1,5 +1,5 @@
 #####
-algernon
+PTI Analyzer
 #####
 
 
