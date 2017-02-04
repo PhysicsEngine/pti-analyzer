@@ -15,7 +15,7 @@ def check_consistency(user, password, host, database):
             ids = [r[0] for r in cur.fetchall()]
             for id in ids:
                 if not os.path.exists("/var/pti/scrape/{}.txt".format(id)):
-                    print("Not found: {}".format(id))
+                    print("Not found scraped text: id -> {}".format(id))
 
     finally:
         conn.close()
