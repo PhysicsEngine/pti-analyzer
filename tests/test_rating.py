@@ -35,4 +35,4 @@ class TestRating(object):
         assert ret[0] == 0
         assert ret[1] == 0
         assert ret[2] == 0
-        assert ret[3] == -0.46211715726000974
+        assert ret[3] == -0.23105857863000487

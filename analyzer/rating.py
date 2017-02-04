@@ -51,6 +51,7 @@ class Rating(object):
         :return: key-value dictionary of author and their rating
         '''
         ret = {a.id: 0 for a in self.unique_authors()}
+        author_articles = {a.id: 0 for a in self.unique_authors()}
         unique_topics = self.unique_topics()
 
         for t in unique_topics:
@@ -75,6 +76,11 @@ class Rating(object):
 
             for i, s in enumerate(sorted_by_time):
                 ret[s.author.id] += np.tanh((i - publisher_index) / num_articles)
+                author_articles[s.author.id] += 1
+
+            for k, v in ret.items():
+                if author_articles[k] != 0:
+                    ret[k] = v / float(author_articles[k])
 
         self.rating = ret
         return self.rating
