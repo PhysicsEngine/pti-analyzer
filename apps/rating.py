@@ -4,7 +4,7 @@ from analyzer.rating import Rating
 from analyzer.model import Author
 from analyzer.model import Article
 
-def make_ranking():
+def rating():
     user = os.environ.get('PTI_USER')
     password = os.environ.get('PTI_PASSWORD')
     host = os.environ.get('PTI_HOST')
@@ -19,4 +19,4 @@ def make_ranking():
         a.save(user, password, host, db)
 
 if __name__ == "__main__":
-    make_ranking()
+    rating()
