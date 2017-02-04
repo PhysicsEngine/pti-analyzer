@@ -32,8 +32,8 @@ class Author(object):
         try:
             with conn.cursor() as cur:
                 sql = "UPDATE articles_authors " \
-                      "SET rate=%s" \
-                      "WHERE id=%s;"
+                      "  SET rate=%s " \
+                      "  WHERE id=%s;"
                 cur.execute(sql, (self.rate, self.id))
         finally:
             conn.close()
