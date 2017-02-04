@@ -47,7 +47,7 @@ setup(
     ],
     keywords='machine-learning topic-model LDA',
     packages=find_packages(exclude=['tests*']),
-    install_requires=['numpy'],
+    install_requires=['numpy', 'PyMySQL'],
     tests_require=['pytest', 'pytest-cov'],
     cmdclass={'test': PyTest}
 )

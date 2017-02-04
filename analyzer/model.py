@@ -1,10 +1,28 @@
 # -*- coding: utf-8 -*-
 
+import pymysql.cursors
+
+
 class Author(object):
     '''
     Author represents a author of article which keeps
     rating of the author.
     '''
+
+    @classmethod
+    def load_from_mysql(cls, user, password, host, database):
+        conn = pymysql.connect(user=user, password=password,
+                               host=host, database=database)
+
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT id,name,rate from articles_authors;"
+                cur.execute(sql)
+                ret = [Author(r[0], r[1], r[2]) for r in cur.fetchall()]
+        finally:
+            conn.close()
+
+        return ret
 
     def __init__(self, id, name, rate):
         self.id = id
@@ -28,9 +46,10 @@ class Article(object):
     Article represents a article by a author.
     '''
 
-    def __init__(self, author, published_time, url, topics):
+    def __init__(self, id, author, pub_time, url, topics):
+        self.id = id
         self.author = author
-        self.published_time = published_time
+        self.pub_time = pub_time
         self.url = url
         # Topics is a list of tuple of topic category and probability.
         # e.g. [(1, 0.12), (2, 0.14), (3, 0.98),...]

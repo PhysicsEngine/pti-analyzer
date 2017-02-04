@@ -7,12 +7,12 @@ from analyzer.rating import Rating
 
 class TestRating(object):
     articles = [
-        Article(Author(0, "Kai",    0), datetime(2017, 1, 23), "http://a.com", [(0, 0.1), (1, 0.2), (2, 0.3)]),
-        Article(Author(1, "Shoe",   0), datetime(2017, 1, 24), "http://b.com", [(0, 0.3), (1, 0.2), (2, 0.1)]),
-        Article(Author(2, "Gologo", 0), datetime(2017, 1, 25), "http://c.com", [(0, 0.6), (1, 0.3), (2, 0.9)]),
-        Article(Author(3, "Yamada", 0), datetime(2017, 1, 26), "http://d.com", [(0, 0.6), (1, 0.3), (2, 0.9)]),
-        Article(Author(2, "Gologo", 0), datetime(2017, 1, 27), "http://e.com", [(0, 0.1), (1, 0.5), (2, 0.1)]),
-        Article(Author(2, "Gologo", 0), datetime(2017, 1, 28), "http://f.com", [(0, 0.6), (1, 0.2), (2, 0.4)])
+        Article(0, Author(0, "Kai",    0), datetime(2017, 1, 23), "http://a.com", [(0, 0.1), (1, 0.2), (2, 0.3)]),
+        Article(1, Author(1, "Shoe",   0), datetime(2017, 1, 24), "http://b.com", [(0, 0.3), (1, 0.2), (2, 0.1)]),
+        Article(2, Author(2, "Gologo", 0), datetime(2017, 1, 25), "http://c.com", [(0, 0.6), (1, 0.3), (2, 0.9)]),
+        Article(3, Author(3, "Yamada", 0), datetime(2017, 1, 26), "http://d.com", [(0, 0.6), (1, 0.3), (2, 0.9)]),
+        Article(4, Author(2, "Gologo", 0), datetime(2017, 1, 27), "http://e.com", [(0, 0.1), (1, 0.5), (2, 0.1)]),
+        Article(5, Author(2, "Gologo", 0), datetime(2017, 1, 28), "http://f.com", [(0, 0.6), (1, 0.2), (2, 0.4)])
     ]
 
     rating = Rating(articles)

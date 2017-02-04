@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, date, time
 
 from analyzer.model import Article
@@ -14,7 +15,15 @@ class TestModel:
         d = date(2017, 2, 4)
         t = time(13, 22)
         topics = [(1, 0.32), (2, 0.12), (3, 0.21)]
-        article = Article(a, datetime.combine(d, t), "http://example.com", topics)
+        article = Article(1, a, datetime.combine(d, t), "http://example.com", topics)
         assert article.author == a
-        assert article.published_time.year == 2017
+        assert article.pub_time.year == 2017
         assert len(article.topics) == 3
+
+    def test_mysql(self):
+        user = os.environ.get('PTI_USER')
+        password = os.environ.get('PTI_PASSWORD')
+        host = os.environ.get('PTI_HOST')
+        db = os.environ.get('PTI_DB')
+        authors = Author.load_from_mysql(user, password, host, db)
+        assert len(authors) == 1

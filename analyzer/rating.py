@@ -54,7 +54,7 @@ class Rating(object):
             sorted_by_topic = list(reversed(sorted([a for a in self.articles],
                                                    key=lambda a: a.get_topic_prob(t))))
             sorted_by_time = list(sorted(sorted_by_topic[:max_num],
-                                         key=lambda a: a.published_time))
+                                         key=lambda a: a.pub_time))
 
             gain = Rating.MAX_GAIN
             for s in sorted_by_time:
