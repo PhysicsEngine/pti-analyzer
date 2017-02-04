@@ -33,7 +33,7 @@ with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='pti-analyzer',
-    version=find_version("pti-analyzer", "__init__.py"),
+    version=find_version("analyzer", "__init__.py"),
     description='Analyzing articles based on topic model(LDA)',
     long_description=long_description,
     url='https://github.com/PhysicsEngine/pti-analyzer',
