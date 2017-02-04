@@ -1,4 +1,5 @@
 import os
+import pytest
 from datetime import datetime, date, time
 
 from analyzer.model import Article
@@ -20,6 +21,7 @@ class TestModel:
         assert article.pub_time.year == 2017
         assert len(article.topics) == 3
 
+    @pytest.mark.skip(reason="depends on remote MySQL")
     def test_author_db(self):
         user = os.environ.get('PTI_USER')
         password = os.environ.get('PTI_PASSWORD')
@@ -28,6 +30,7 @@ class TestModel:
         authors = Author.load_from_mysql(user, password, host, db)
         assert len(authors) == 1
 
+    @pytest.mark.skip(reason="no pickle file in predefined dir")
     def test_article_db(self):
         user = os.environ.get('PTI_USER')
         password = os.environ.get('PTI_PASSWORD')
@@ -35,4 +38,8 @@ class TestModel:
         db = os.environ.get('PTI_DB')
         articles = Article.load_from_mysql(user, password, host, db)
         assert len(articles) == 2
+
+    def test_pickle_load(self):
+        t = Article.load_from_pickel("./data", 1)
+        assert len(t) == 2
 
