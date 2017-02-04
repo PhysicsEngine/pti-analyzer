@@ -70,10 +70,12 @@ class Rating(object):
             # Search position of publisher's article
             publisher_index = int(num_articles / 2)
             for i, a in enumerate(sorted_by_time):
+                # Published id (Reuter Editorial) is 1
                 if a.author.id == 1:
                     publisher_index = i
                     break
 
+            # Sorted by latest -> old articles
             for i, s in enumerate(sorted_by_time):
                 ret[s.author.id] += np.tanh((i - publisher_index) / num_articles)
                 author_articles[s.author.id] += 1
