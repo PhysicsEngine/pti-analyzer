@@ -11,6 +11,7 @@ class Rating(object):
     RATING_BASE = 1.0
     MAX_ARTICLES = 5
     TOPIC_PROB_THRESHOLD = 0.5
+    PUBLISHER_ID = 11
     '''
     Rating calculate rating of each authors given articles
     according topic model.
@@ -71,12 +72,15 @@ class Rating(object):
             publisher_index = int(num_articles / 2)
             for i, a in enumerate(sorted_by_time):
                 # Published id (Reuter Editorial) is 1
-                if a.author.id == 1:
+                if a.author.id == Rating.PUBLISHER_ID:
                     publisher_index = i
                     break
 
             # Sorted by latest -> old articles
             for i, s in enumerate(sorted_by_time):
+                # Ignore publisher
+                if s.author.id == Rating.PUBLISHER_ID:
+                    continue
                 ret[s.author.id] += np.tanh((i - publisher_index) / num_articles)
                 author_articles[s.author.id] += 1
 
