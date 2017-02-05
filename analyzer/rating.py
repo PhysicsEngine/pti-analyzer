@@ -80,10 +80,10 @@ class Rating(object):
                 ret[s.author.id] += np.tanh((i - publisher_index) / num_articles)
                 author_articles[s.author.id] += 1
 
-            # Make rating in average
-            for k, v in ret.items():
-                if author_articles[k] != 0:
-                    ret[k] = v / float(author_articles[k])
+        # Make rating in average
+        for k, v in ret.items():
+            if author_articles[k] != 0:
+                ret[k] = v / np.log(author_articles[k] + 1.0)
 
         self.rating = ret
         return self.rating
